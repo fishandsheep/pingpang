@@ -1,0 +1,56 @@
+<view class="container">
+  <map
+    class="map"
+    latitude="{{latitude}}"
+    longitude="{{longitude}}"
+    scale="{{scale}}"
+    markers="{{markers}}"
+    show-location
+    bindmarkertap="onMarkerTap"
+    bindregionchange="onRegionChange"
+  >
+    <view class="map-controls">
+      <view class="location-btn" bindtap="getLocation">
+        <image src="/assets/location.png" mode="aspectFit"></image>
+      </view>
+      
+      <view class="refresh-btn" bindtap="searchNearbyTables">
+        <image src="/assets/refresh.png" mode="aspectFit"></image>
+      </view>
+    </view>
+  </map>
+  
+  <view class="top-bar">
+    <view class="search-bar">
+      <image class="search-icon" src="/assets/search.png" mode="aspectFit"></image>
+      <input type="text" placeholder="搜索附近球台" disabled />
+    </view>
+  </view>
+  
+  <view class="bottom-panel" wx:if="{{markers.length > 0}}">
+    <view class="panel-header">
+      <text class="panel-title">附近球台 ({{markers.length}})</text>
+      <view class="filter-btn" bindtap="toggleFilter">
+        <text>筛选</text>
+        <image src="/assets/filter.png" mode="aspectFit"></image>
+      </view>
+    </view>
+    
+    <scroll-view class="table-list" scroll-y>
+      <view class="table-item" wx:for="{{markers}}" wx:key="id" bindtap="focusMarker" data-marker="{{item}}">
+        <view class="table-info">
+          <view class="table-name">{{item.title}}</view>
+          <view class="table-address">{{item.subtitle}}</view>
+          <view class="table-status">
+            <text class="status-dot {{item.status === '空闲' ? 'status-free' : 'status-busy'}}"></text>
+            <text class="status-text">{{item.status}}</text>
+          </view>
+        </view>
+        <view class="table-distance">
+          <text>{{item.distance || '计算中'}}</text>
+          <image src="/assets/navigation.png" mode="aspectFit"></image>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>
