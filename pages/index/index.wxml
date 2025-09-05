@@ -1,6 +1,6 @@
 <view class="container">
   <map
-    class="map"
+    class="map {{mapExpanded ? 'expanded' : ''}}"
     latitude="{{latitude}}"
     longitude="{{longitude}}"
     scale="{{scale}}"
@@ -8,31 +8,35 @@
     show-location
     bindmarkertap="onMarkerTap"
     bindregionchange="onRegionChange"
+    bindtap="resetPanel"
   >
     <view class="map-controls">
-      <view class="location-btn" bindtap="getLocation">
-        <image src="/assets/location.png" mode="aspectFit"></image>
+      <view class="location-btn" bindtap="onLocationTap">
+        <image src="/assets/location.svg" mode="aspectFit"></image>
       </view>
       
-      <view class="refresh-btn" bindtap="searchNearbyTables">
-        <image src="/assets/refresh.png" mode="aspectFit"></image>
+      <view class="refresh-btn" bindtap="onRefreshTap">
+        <image src="/assets/refresh.svg" mode="aspectFit"></image>
       </view>
     </view>
   </map>
   
   <view class="top-bar">
-    <view class="search-bar">
-      <image class="search-icon" src="/assets/search.png" mode="aspectFit"></image>
+    <view class="search-bar" bindtap="onSearchTap">
+      <image class="search-icon" src="/assets/search.svg" mode="aspectFit"></image>
       <input type="text" placeholder="搜索附近球台" disabled />
     </view>
   </view>
   
-  <view class="bottom-panel" wx:if="{{markers.length > 0}}">
-    <view class="panel-header">
-      <text class="panel-title">附近球台 ({{markers.length}})</text>
-      <view class="filter-btn" bindtap="toggleFilter">
-        <text>筛选</text>
-        <image src="/assets/filter.png" mode="aspectFit"></image>
+  <view class="bottom-panel {{panelState}}" wx:if="{{markers.length > 0}}">
+    <view class="panel-header" bindtouchstart="onDragStart" bindtouchmove="onDragMove" bindtouchend="onDragEnd">
+      <view class="drag-handle"></view>
+      <view class="panel-title-row">
+        <text class="panel-title">附近球台 ({{markers.length}})</text>
+        <view class="filter-btn {{filterStatus !== 'all' ? 'filter-active' : ''}}" bindtap="toggleFilter">
+          <text class="filter-text">{{getFilterText(filterStatus)}}</text>
+          <image src="/assets/filter.svg" mode="aspectFit"></image>
+        </view>
       </view>
     </view>
     
@@ -48,7 +52,7 @@
         </view>
         <view class="table-distance">
           <text>{{item.distance || '计算中'}}</text>
-          <image src="/assets/navigation.png" mode="aspectFit"></image>
+          <image src="/assets/navigation.svg" mode="aspectFit"></image>
         </view>
       </view>
     </scroll-view>

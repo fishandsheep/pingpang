@@ -13,7 +13,9 @@
       "desc": "你的位置信息将用于查找附近的乒乓球台"
     }
   },
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
   "requiredBackgroundModes": ["location"],
-  "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

@@ -7,14 +7,30 @@
 
 .map {
   width: 100%;
-  height: 100%;
+  height: 50vh;
+  transition: height 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.map.expanded {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
 }
 
 .map-controls {
   position: absolute;
   right: 20rpx;
-  bottom: 200rpx;
+  bottom: 120rpx;
   z-index: 100;
+  transition: bottom 0.3s ease;
+}
+
+.map.expanded .map-controls {
+  bottom: 200rpx;
 }
 
 .location-btn, .refresh-btn {
@@ -27,11 +43,18 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 20rpx;
+  transition: all 0.2s ease;
+}
+
+.location-btn:active, .refresh-btn:active {
+  background: #f0f0f0;
+  transform: scale(0.95);
 }
 
 .location-btn image, .refresh-btn image {
   width: 40rpx;
   height: 40rpx;
+  color: #333;
 }
 
 .top-bar {
@@ -50,6 +73,12 @@
   display: flex;
   align-items: center;
   padding: 0 30rpx;
+  transition: all 0.2s ease;
+}
+
+.search-bar:active {
+  background: #f8f8f8;
+  transform: scale(0.98);
 }
 
 .search-icon {
@@ -57,6 +86,7 @@
   height: 32rpx;
   margin-right: 20rpx;
   opacity: 0.6;
+  color: #666;
 }
 
 .search-bar input {
@@ -68,22 +98,59 @@
 
 .bottom-panel {
   position: absolute;
-  bottom: 0;
+  top: 50vh;
   left: 0;
   right: 0;
   background: #fff;
   border-radius: 32rpx 32rpx 0 0;
   box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.08);
-  z-index: 99;
-  max-height: 60vh;
+  z-index: 100;
+  height: 50vh;
+  transition: top 0.3s ease, height 0.3s ease;
+}
+
+.bottom-panel.expanded {
+  top: 70vh;
+  height: 30vh;
+}
+
+.bottom-panel.collapsed {
+  top: 85vh;
+  height: 15vh;
 }
 
 .panel-header {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30rpx 30rpx 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+  cursor: grab;
+  user-select: none;
+}
+
+.panel-header:active {
+  cursor: grabbing;
+}
+
+.drag-handle {
+  width: 80rpx;
+  height: 8rpx;
+  background: #d0d0d0;
+  border-radius: 4rpx;
+  margin-bottom: 20rpx;
+  transition: background 0.2s ease;
+}
+
+.drag-handle:active {
+  background: #b0b0b0;
+}
+
+.panel-title-row {
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 30rpx;
-  border-bottom: 1rpx solid #f0f0f0;
+  width: 100%;
 }
 
 .panel-title {
@@ -97,17 +164,43 @@
   align-items: center;
   font-size: 28rpx;
   color: #666;
+  background: #f8f8f8;
+  padding: 12rpx 20rpx;
+  border-radius: 20rpx;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:active {
+  background: #e8e8e8;
+  transform: scale(0.95);
+}
+
+.filter-btn .filter-text {
+  margin-right: 8rpx;
+  font-weight: 500;
+}
+
+.filter-btn.filter-active .filter-text {
+  color: #4caf50;
 }
 
 .filter-btn image {
   width: 24rpx;
   height: 24rpx;
-  margin-left: 8rpx;
 }
 
 .table-list {
-  max-height: 45vh;
+  height: calc(100% - 120rpx);
   padding: 0 20rpx 20rpx;
+}
+
+.bottom-panel.expanded .table-list {
+  height: calc(100% - 120rpx);
+}
+
+.bottom-panel.collapsed .table-list {
+  height: calc(100% - 120rpx);
+  overflow-y: auto;
 }
 
 .table-item {
